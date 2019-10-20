@@ -1,0 +1,135 @@
+%\documentclass[12pt]{article}
+\documentclass[a4paper,prb,8pt]{revtex4-1}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\usepackage[outdir=./]{epstopdf}
+\usepackage{float}
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+\begin{document}
+\title{Ising Model in 2D solved using Metropolis Monte Carlo Algorithm}
+\author{O.~Abdurazakov}
+\affiliation{\textbf {NC State} University, Department of Physics, Raleigh, NC 27695}
+\maketitle
+\section*{Problem 1}
+
+Calculate the internal energy per lattice site $U(T) = \langle H \rangle/N$ and the specific heat per lattice site, $C = (\langle H^2\rangle - \langle H \rangle^2) /(T^2N)$, for the 2D ferromagnetic Ising $4\times4$ model with periodic boundary conditions, for $T$ in range $0.2-5$(in units $J/k_B$). Explore the following methods:\\
+a) using explicit generation of all $2^{16}$ configuration (ie, exact evaluation)\\
+b) Metropolis Monte Carlo simulation.\\
+Compare the results. 
+\subsection*{Solution}
+The internal energy and the specific heat per a lattice site  for $4\times4$ lattice of spins are evaluated exactly and using the Metropolis Monte Carlo method. The internal energy and specific heat per lattice site computed using the following formulas.
+\begin{eqnarray}
+U(T) &=& \frac{<E>}{N},\\
+C(T) &=& \frac{<E^2>-<E>^2}{Nk_B T^2},
+\end{eqnarray}
+where the thermal average of a  physical quantity $A$ taken over the all possible configurations $\{\alpha\}$ as $<A>  = \sum_{\alpha}A_{\alpha}e^{-\beta H_{\alpha}}$.
+In the MC simulations, the spin configuration is changed $20000$ times to thermalize before the average of the physical quantities are calculated by taking $10000$ measurements. It is seen from the first figure that they are comparable although the MC simulation shows some fluctions around the exact values. At low temperatures, because each site interacts with four nearest sites and taking into account the double counting we would obtain $-2J$ energy per site which is seen from the figure. And this corresponds to all the sites having aligned spins. With heating the lattice the inernal enerrgy increases as expected.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4,angle=-90]{/home/omadillo/comp_physics/hw2/1energy.eps}
+\caption{The internal energy per lattice site as functions of temperature computed exactly and using Metropolis algorithm}
+\label{fig1}
+\end{center}
+\end{figure}
+From the specific heat graphs it is observed that there is a critical point around in temperature where the behaviour of the system changes drastically. This charachteristic temperature point becomes more pronounced with more lattice sites as it will be seen in the next graphs. From the agreement of the results just for $4\times4$ spin lattice we can conclude that MC calculations are much better alternative to the exact calculation which becomes computationaly expensive, even imposible, for the larger lattices. 
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4,angle=-90]{/home/omadillo/comp_physics/hw2/1heat.eps}
+\caption{The specific heat per lattice site as functions of temperature computed exactlyi and using Metropolis algorithm}
+\label{fig2}
+\end{center}
+\end{figure}
+
+\section*{Problem 2}
+
+Using Metropolis algorith simulate $10\times10$ and $20\times20 2D$ Ising models.\\
+a) Evaluate the internal energy $\langle H \rangle/N$ and the specific heat per site in the range of $T$ $0.2-5$(in $J/k_B T$). Estimate approximately the value of the critical temperature (think about which approach to use.)\\
+b) For each temperature estimate approximately the magnetization $\langle s \rangle$. Interperet your results.  
+\subsection*{Solution}
+
+The same physical quantities are simulated in 2D Ising model for the  $10\times10$ and $20\times20$ lattices. The first thing to notice that the MC simulations yield better results for the larger lattices.  Now the critical point becomes more apparent from the graphs of internal energies and the specific heat.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4,angle=-90]{/home/omadillo/comp_physics/hw2/2energy.eps}
+\caption{The internal energy per lattice site as functions of temperature in 2D Ising model for 10x10 and 20x20 lattices}
+\label{fig3}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4,angle=-90]{/home/omadillo/comp_physics/hw2/2heat.eps}
+\caption{The specific heat per lattice site as functions of temperature in 2D Ising model for 10x10 and $20\times20$ lattices}
+\label{figr4}
+\end{center}
+\end{figure}
+The critical temeparature is found by fitting the specific heat curve per lattice site for the $20\times20$ lattice with the gaussian function which is shown in the FIG.\ref{fig5}. The fitted critical temperature is $T_c = 2.307\pm 0.001$. In the limit the number of lattice sites going to infinity it is $T_c\approx 2.27$. If we increase the number of sites, $T_c$ would decrease toward this value; we can see that the $T_c$ decreases with the incsrease of the number of sites in the previous figure comparing the spesific heat of lattices $10\times10$ and $20\times20$. 
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.4,angle=-90]{/home/omadillo/comp_physics/hw2/critical.eps}
+\caption{The critical temperature is found by fitting the specific heat per latiice site curve to a gaussian fucntion for $20\times20$ lattice}
+\label{fig5}
+\end{center}
+\end{figure}
+
+Finally, the magnitization for both lattices shown in the figures. When the system cooled down to low temperatures, one can guess that all spins are aligned either up or down. The choice essentially depends on the initial conditions. We can see this from FIG.\ref{fig6} for magnitizations. It is almost $1$ or $-1$ untill the critial point. Around the critical point one can see very noticable fluctuations. These can be improved by increasing the number of thermalization steps which would take a longer time. Of course, the obvius way is to increses the number of lattice sites, but we are just looking the given number of lattice sites. After passing the vicinity of the critical point the magnetizions drops to zero, where we call the a phase transition occured from the ferromagnetic to a paramagnetic state, where no more spontaneous magnetization. Another observation is that $20\times20$ has a closer critical temperature to the ideal $T_c\approx 2.27$ point, again pointing out that the Ising model works better for the lattices with more sites.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4,angle=-90]{/home/omadillo/comp_physics/hw2/magnet.eps}
+\caption{The magnitization per lattice site as functions of temperature for 10x10 and 20x20 lattices in Ising model}
+\label{fig6}
+\end{center}
+\end{figure}
+
+\begin{thebibliography}{1}
+	\bibitem{text} N. J. Giordano and H. Nakanishi, \textbf{Computational Physics} (2nd edition, Prentice Hall, New Jersey, 2005).
+\end{thebibliography}
+
+%\section*{Appendix:~Codes}
+
+%\subsection*{Problem 1a}
+
+%\lstinputlisting[language=C++]{/home/omadillo/comp_physics/hw2/problem1a.cc}
+
+%\subsection*{Problem 1b and 2}
+
+%\lstinputlisting[language=C++]{/home/omadillo/comp_physics/hw2/metropolis.cc}
+
+\end{document}
